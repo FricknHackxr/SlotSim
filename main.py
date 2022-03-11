@@ -89,32 +89,40 @@ while spiel_aktiv:
     screen.blit(letters_wins, (430, 695))
     pygame.display.update()
 
-    if geld - einsatz[aktueller_einsatz] < 0:
-        geld = 50
-        aktueller_einsatz = 0
-        wins = 0
-        print("Neuanfang")
-        screen.fill(black)
-        letters_bets = font.render("Dir wird schwarz vor Augen!", False, red)
-        screen.blit()
-        pygame.display.update()
-        pygame.time.delay(1000)
-
     # Überprüfen, ob Nutzer eine Aktion durchgeführt hat
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             spiel_aktiv = False
+
         elif event.type == pygame.KEYDOWN:
             # Abfrage, welche Taste gedrückt wurde
             if event.key == pygame.K_UP:
                 if aktueller_einsatz < 2:
                     aktueller_einsatz += 1
                     print("Einsatz erhöht")
+
             elif event.key == pygame.K_DOWN:
                 if aktueller_einsatz > 0:
                     aktueller_einsatz -= 1
                     print("Einsatz gesenkt")
+
             elif event.key == pygame.K_e:
+                if geld - einsatz[aktueller_einsatz] < 0:
+                    geld = 50
+                    aktueller_einsatz = 0
+                    wins = 0
+                    print("Neuanfang")
+                    screen.fill(black)
+                    letters_reset = font.render("Dir wird schwarz vor Augen!", False, red)
+                    screen.blit(letters_reset, (130, 450))
+                    pygame.display.update()
+                    pygame.time.delay(2000)
+                    screen.fill(black)
+                    letters_reset = font.render("Du wachst in einem Poke-Center auf!", False, red)
+                    screen.blit(letters_reset, (60, 450))
+                    pygame.display.update()
+                    pygame.time.delay(2000)
                 geld -= einsatz[aktueller_einsatz]
                 gewinn = -einsatz[aktueller_einsatz]
                 choice1 = symbol_choice()
@@ -125,8 +133,10 @@ while spiel_aktiv:
                     print("You won " + str(gewinn) + "€!")
                     wins += 1
                     geld += gewinn
+
             elif event.key == pygame.K_r:
                 geld = 50
                 aktueller_einsatz = 0
                 wins = 0
                 print("Neuanfang")
+            pygame.display.update()
