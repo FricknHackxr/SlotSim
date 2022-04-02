@@ -30,6 +30,11 @@ pics = [pygame.image.load("textures/diamant.png"), pygame.image.load("textures/s
         pygame.image.load("textures/bar.png"), pygame.image.load("textures/hufeisen.png"),
         pygame.image.load("textures/geld.png"), pygame.image.load("textures/glocke.png"),
         pygame.image.load("textures/cherry.png")]
+diagonal_line1 = pygame.image.load("textures/Untitled-1.png")
+diagonal_line2 = pygame.image.load("textures/diagonal2.png")
+horizontal_line1 = pygame.image.load("textures/Untitled-2.png")
+horizontal_line2 = pygame.image.load("textures/Untitled-2.png")
+horizontal_line3 = pygame.image.load("textures/Untitled-2.png")
 font = pygame.font.SysFont('arial', 25)
 pygame.display.set_caption("SlotSim")
 
@@ -40,6 +45,14 @@ pics[3] = pygame.transform.scale(pics[3], (50, 50))
 pics[4] = pygame.transform.scale(pics[4], (50, 50))
 pics[5] = pygame.transform.scale(pics[5], (50, 50))
 pics[6] = pygame.transform.scale(pics[6], (50, 50))
+
+horizontal_line1 = pygame.transform.scale(horizontal_line1, (400, 5))
+horizontal_line2 = pygame.transform.scale(horizontal_line2, (400, 5))
+horizontal_line3 = pygame.transform.scale(horizontal_line3, (400, 5))
+diagonal_line1 = pygame.transform.scale(diagonal_line1, (400, 400))
+diagonal_line2 = pygame.transform.scale(diagonal_line2, (400, 400))
+
+
 
 
 
@@ -63,7 +76,7 @@ weights = []
 for symbol in symbols:
     weights.append(symbol.percentage)
 
-line = pygame.Surface((600, 960))
+
 
 # 0,064 0,078125 0,03375 0,02 0,01715 0,0008 0,0002 == 0,214025 -1€ == -0,785975
 
@@ -123,9 +136,20 @@ while spiel_aktiv:
     screen.blit(letters_geld, (215, 695))
     screen.blit(letters_wins, (430, 695))
 
-    if show_win and (int(time.time() * 1000) - show_start < 1000) and (gewinn > 0):
+    if show_win and (int(time.time() * 1000) - show_start < 1000) and (gewinn >= 0):
         screen.blit(font.render(str(gewinn) + "€ gewonnen!", False, white), (240, 850))
-        screen.blit(line, (0, 0))
+
+        if choice1 == choice2 == choice3:
+            screen.blit(horizontal_line1, (110, 470))
+        if choice4 == choice5 == choice6:
+            screen.blit(horizontal_line2, (110, 545))
+        if choice7 == choice8 == choice9: 
+            screen.blit(horizontal_line3, (110, 625))
+        if choice1 == choice5 == choice9:    
+            screen.blit(diagonal_line1, (110, 350))
+        if choice3 == choice5 == choice7:
+            screen.blit(diagonal_line2, (110, 350))
+
         input_block = True
     elif show_win and (int(time.time() * 1000) - show_start > 1000):
         show_win = False
@@ -185,7 +209,6 @@ while spiel_aktiv:
                 choice9 = symbol_choice()
 
                 if choice1 == choice2 == choice3:
-                    pygame.draw.line(background, red, (110, 475), (460, 475))
                     gewinn += symbols[choice1].win * einsatz[aktueller_einsatz]
                     show_start = time.time() * 1000
                     show_win = True
@@ -193,7 +216,6 @@ while spiel_aktiv:
                     geld += gewinn
 
                 if choice4 == choice5 == choice6:
-                    pygame.draw.line(background, red, (110, 475), (460, 475))
                     gewinn += symbols[choice4].win * einsatz[aktueller_einsatz]
                     show_start = time.time() * 1000
                     show_win = True
@@ -201,7 +223,7 @@ while spiel_aktiv:
                     geld += gewinn
 
                 if choice7 == choice8 == choice9:
-                    pygame.draw.line(background, red, (110, 475), (460, 475))
+                 
                     gewinn += symbols[choice7].win * einsatz[aktueller_einsatz]
                     show_start = time.time() * 1000
                     show_win = True
@@ -209,15 +231,15 @@ while spiel_aktiv:
                     geld += gewinn
 
                 if choice1 == choice5 == choice9:
-                    pygame.draw.line(background, red, (110, 475), (460, 475))
+                   
                     gewinn += symbols[choice1].win * einsatz[aktueller_einsatz]
                     show_start = time.time() * 1000
                     show_win = True
-                    wins += 12
+                    wins += 1
                     geld += gewinn
 
                 if choice3 == choice5 == choice7:
-                    pygame.draw.line(background, red, (110, 475), (460, 475))
+                    
                     gewinn += symbols[choice3].win * einsatz[aktueller_einsatz]
                     show_start = time.time() * 1000
                     show_win = True
